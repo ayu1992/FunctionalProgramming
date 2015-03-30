@@ -1,0 +1,87 @@
+﻿Q2.
+
+
+An An Yu,5116472
+
+
+> Call by value
+andl (t::f::t::t::[]) 
+=  foldl and t (t::f::t::t::[])
+=  foldl and (and t t) (f::t::t::[])
+=  foldl and t (f::t::t::[])
+=  foldl and (and t f) (t::t::[])
+=  foldl and f (t::t::[])
+=  foldl and (and f t) (t::[])
+=  foldl and f (t::[])
+=  foldl and (and f t) []
+=  foldl and f []
+=  f
+
+
+> Call by name
+andl (t::f::t::t::[]) 
+=  foldl and t (t::f::t::t::[])
+=  foldl and (and t t) (f::t::t::[])
+=  foldl and (and (and t t) f) (t::t::[])
+=  foldl and (and (and(and t t)f)t) (t::[])
+=  foldl and (and (and(and(and t t)f)t)t) []
+=  and (and(and(and t t)f)t)t
+=  if and(and(and t t)f)t then t else f
+=  if (if (and(and t t)f) then t else f) then t else f
+=  if (if (if (and t t) then f else f) then t else f) then t else f
+=  if (if (if t then f else f) then t else f) then t else f
+=  if (if f then t else f) then t else f
+=  if f then t else f
+=  f
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> Call by value
+andr (t::f::t::t::[])
+=  foldr and t (t::f::t::t::[])
+=  and t (foldr and t (f::t::t::[]))
+=  and t (and f (foldr and t (t::t::[])))
+=  and t (and f (and t (foldr and t (t::[]))))
+=  and t (and f (and t (and t (foldr and t []))))
+=  and t (and f (and t (and t t)))
+=  and t (and f (and t (if t then t else f)))
+=  and t (and f (and t t))
+=  and t (and f (if t then t else f))
+=  and t (and f t)
+=  and t (if f then t else f)
+=  and t f
+= if t then f else f
+= f
+
+
+> Call by name
+andr (t::f::t::t::[])
+=  foldr and t (t::f::t::t::[])
+=  and t (foldr and t (f::t::t::[]))
+=  if t then (foldr and t (f::t::t::[])) else f 
+=  foldr and t (f::t::t::[])
+=  and f (foldr and t (t::t::[]))
+=  if f then (foldr and t (t::t::[])) else f
+=  f
+
+
+call by name using andr is the most efficient as it didn’t need to evaluate the whole list to obtain the result.
